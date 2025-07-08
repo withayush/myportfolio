@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import HeroSection from "@/components/portfolio/HeroSection";
@@ -7,10 +8,84 @@ import ProjectsSection from "@/components/portfolio/ProjectsSection";
 import ResumeSection from "@/components/portfolio/ResumeSection";
 import ContactSection from "@/components/portfolio/ContactSection";
 
+const NAV_LINKS = [
+  { label: "Home", href: "#hero" },
+  { label: "About", href: "#about" },
+  { label: "Tech Stack", href: "#tech-stack" },
+  { label: "Projects", href: "#projects" },
+  { label: "Resume", href: "#resume" },
+  { label: "Contact", href: "#contact" },
+];
+
 const Index = () => {
+  const [navOpen, setNavOpen] = useState(false);
+
+  // Smooth scroll for anchor links
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (e.target.matches('a[href^="#"]')) {
+        const id = e.target.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth" });
+          setNavOpen(false);
+        }
+      }
+    };
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+
   return (
-    <div className="relative overflow-x-hidden bg-slate-50">
-      
+    <div className="relative overflow-x-hidden bg-transparent transition-colors duration-500">
+      {/* Modern Glassy Navbar */}
+      <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 w-[95vw] max-w-5xl z-50 px-0 py-0">
+        {/* Glassmorphism Background Only */}
+        <div className="relative rounded-2xl shadow-2xl">
+          <div className="relative bg-white/30 backdrop-blur-xl rounded-2xl px-6 py-2 flex items-center justify-center shadow-lg">
+            {/* Desktop Links - Centered */}
+            <div className="hidden md:flex gap-6 justify-center w-full">
+              {NAV_LINKS.map(link => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="relative text-slate-900 font-semibold transition-all px-3 py-1 group hover:scale-105"
+                >
+                  <span className="relative z-10 group-hover:text-blue-700 transition-colors duration-200">{link.label}</span>
+                  {/* Underline animation */}
+                  <span className="absolute left-0 -bottom-0.5 w-0 h-0.5 bg-blue-400 rounded-full transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              ))}
+            </div>
+            {/* Mobile menu button - right aligned */}
+            <button
+              className="md:hidden ml-auto p-2 rounded-lg bg-white/40 border border-white/30 shadow focus:outline-none focus:ring-2 focus:ring-blue-400 absolute right-4 top-1/2 -translate-y-1/2"
+              onClick={() => setNavOpen((o) => !o)}
+              aria-label="Open navigation menu"
+            >
+              <span className="block w-6 h-0.5 bg-slate-900 mb-1 rounded"></span>
+              <span className="block w-6 h-0.5 bg-slate-900 mb-1 rounded"></span>
+              <span className="block w-6 h-0.5 bg-slate-900 rounded"></span>
+            </button>
+            {/* Mobile nav - centered glassy, improved text color */}
+            {navOpen && (
+              <div className="absolute top-14 left-1/2 -translate-x-1/2 w-56 bg-white/40 backdrop-blur-xl border border-white/30 shadow-2xl rounded-xl px-4 py-6 flex flex-col gap-4 items-center animate-fade-in z-50">
+                {NAV_LINKS.map(link => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500 drop-shadow-md hover:text-blue-700 hover:bg-none transition-all text-lg px-2 py-1 rounded hover:bg-blue-100/40 hover:scale-105 text-center w-full"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </nav>
+      <div className="">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -23,7 +98,7 @@ const Index = () => {
           <ResumeSection />
           <ContactSection />
         </motion.div>
-      
+      </div>
     </div>
   );
 };

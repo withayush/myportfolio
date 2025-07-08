@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Download, Eye } from "lucide-react";
 import { GlareCard } from "@/components/ui/glare-card";
 import TextPressure from "../../components/ui/TextPressure.jsx/TextPressure/TextPressure";
+import Particles from '../ui/Particles';
 
 const HeroSection = () => {
   const containerVariants = {
@@ -30,11 +31,13 @@ const HeroSection = () => {
   };
 
   return (
+    
     <GlareCard 
       id="hero" 
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-none border-none"
       tiltEnable={false} // Disable tilt effect while keeping glare
     >
+      
       {/* Enhanced Animated Background Elements */}
       <div className="absolute inset-0">
         {/* Primary animated orbs */}
@@ -95,16 +98,8 @@ const HeroSection = () => {
           // }}
         /> */}
         
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="w-full h-full" style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
+        
+        
         
         {/* Particle effects */}
         <motion.div
@@ -228,7 +223,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Decorative elements */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-15 bg-gradient-to-t from-white to-transparent" />
     </GlareCard>
   );
 };
